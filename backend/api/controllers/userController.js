@@ -27,13 +27,13 @@ const signup= async(req, res, next) =>{
 		if(existingUser){
 			return res.status(400).json({message:"User Already Exists! Login instead."})
 		}
-		const salt = bcrypt.genSaltSync(saltRounds);
 
-		const hashedPassword = bcrypt.hashSync(password, salt);
+		const salt = bcrypt.genSaltSync(saltRounds);
+		const hashPassword = bcrypt.hashSync(password, salt);
 		const user = new userModel({
 			name,
 			email,
-			password: hashedPassword
+			password: hashPassword
 		});
 		
 
