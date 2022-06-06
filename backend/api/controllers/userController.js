@@ -1,4 +1,6 @@
+const bcrypt = require('bcrypt');
 const userModel = require("../models/UserModel");
+const saltRounds = 6;
 
 const getAllUser = async(req, res, next) =>{
 	let users;
@@ -25,9 +27,16 @@ const signup= async(req, res, next) =>{
 		if(existingUser){
 			return res.status(400).json({message:"User Already Exists! Login instead."})
 		}
+		const salt = bcrypt.genSaltSync(saltRounds);
+
+		const hashedPassword = bcrypt.hashSync(password, salt);
 		const user = new userModel({
-			name, email, password
+			name,
+			email,
+			password: hashedPassword
 		});
+		
+
 		try{
 			await user.save();
 		}catch(err){
