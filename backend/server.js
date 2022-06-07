@@ -1,4 +1,3 @@
-// initially MongoDB connection and Successfully run
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
@@ -8,6 +7,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/mern-blockapp');
 
 const userRoute = require("./api/routers/userRoute");
+const blogRoute = require("./api/routers/blogRoute");
 
 
 
@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use('/api/users',userRoute);
+app.use('/api/blogs', blogRoute)
 
 // ------------> Starting MongoDB Database connection & check
 const db = mongoose.connection;
