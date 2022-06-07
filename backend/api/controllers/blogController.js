@@ -26,8 +26,23 @@ const addBlog = async(req, res, next) =>{
     return res.status(200).json(blog);
 }
 
-
+const updateBlog = async(req, res, next) =>{
+    const {title, description, image} = req.body;
+    const blogId = req.params.id;
+    let blog;
+    try{
+        blog = await BlogModel.findByIdAndUpdate(blogId, {
+            title, description, image
+        })
+    }catch(err){
+        return console.log(err);
+    }
+    if(!blog){
+        return res.status(500).json({message: "Unable to Update the Blog!"})
+    }
+    return res.status(200).json({blog})
+}
 
 module.exports = {
-    getAllBlog, addBlog
+    getAllBlog, addBlog, updateBlog
 }
