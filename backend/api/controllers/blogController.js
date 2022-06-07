@@ -28,6 +28,25 @@ const addBlog = async(req, res, next) =>{
     return res.status(200).json(blog);
 }
 
+
+//TODO:------> Show a Single Blog Using ID
+const getSingleBlog = (req, res, next) =>{
+    let id = req.params.id;
+    BlogModel.findById(id)
+        .then(data =>{
+            res.status(200).json({
+                singleContact: data
+            })
+        })
+        .catch(err =>{
+            res.status(500).json({
+                message: "Error Occured!",
+                error: err
+            })
+        })
+}
+
+
 //TODO:------> Update Single Blog using id
 const updateSingleBlog = async(req, res, next) =>{
     const {title, description, image} = req.body;
@@ -66,5 +85,5 @@ const deleteSingleBlog = (req, res, next) =>{
 }
 
 module.exports = {
-    getAllBlog, addBlog, updateSingleBlog, deleteSingleBlog
+    getAllBlog, addBlog, getSingleBlog ,updateSingleBlog, deleteSingleBlog
 }
