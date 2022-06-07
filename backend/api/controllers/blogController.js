@@ -28,6 +28,23 @@ const addBlog = async(req, res, next) =>{
     return res.status(200).json(blog);
 }
 
+
+//TODO:------> Show a Single Blog Using ID
+const getSingleBlog = async(req, res, next) =>{
+    let id = req.params.id;
+    let singleBlog;
+    try{
+        singleBlog = await BlogModel.findById(id);
+    }catch(err){
+        return console.log(err);
+    }
+    if(!singleBlog){
+        return res.status(404).json({message: "No Blog Found!"});
+    }
+    return res.status(200).json({singleBlog});
+}
+
+
 //TODO:------> Update Single Blog using id
 const updateSingleBlog = async(req, res, next) =>{
     const {title, description, image} = req.body;
@@ -66,5 +83,5 @@ const deleteSingleBlog = (req, res, next) =>{
 }
 
 module.exports = {
-    getAllBlog, addBlog, updateSingleBlog, deleteSingleBlog
+    getAllBlog, addBlog, getSingleBlog ,updateSingleBlog, deleteSingleBlog
 }
