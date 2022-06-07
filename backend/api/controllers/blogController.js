@@ -32,16 +32,16 @@ const addBlog = async(req, res, next) =>{
 //TODO:------> Show a Single Blog Using ID
 const getSingleBlog = async(req, res, next) =>{
     let id = req.params.id;
-    let blog;
+    let singleBlog;
     try{
-        blog = await BlogModel.findById(id);
+        singleBlog = await BlogModel.findById(id);
     }catch(err){
         return console.log(err);
     }
-    if(!blog){
+    if(!singleBlog){
         return res.status(404).json({message: "No Blog Found!"});
     }
-    return res.status(200).json({blog});
+    return res.status(200).json({singleBlog});
 }
 
 
