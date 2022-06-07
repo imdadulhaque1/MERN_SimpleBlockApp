@@ -1,5 +1,6 @@
 const BlogModel = require("../models/BlogModel");
 
+//TODO:------> Show all the Blog
 const getAllBlog = async(req, res, next)=>{
     let blogs;
     try{
@@ -13,6 +14,7 @@ const getAllBlog = async(req, res, next)=>{
     return res.status(200).json({blogs})
 }
 
+//TODO:------> Insert a new Blog
 const addBlog = async(req, res, next) =>{
     const {title, description, image, user} = req.body;
     const blog = new BlogModel({
@@ -26,7 +28,8 @@ const addBlog = async(req, res, next) =>{
     return res.status(200).json(blog);
 }
 
-const updateBlog = async(req, res, next) =>{
+//TODO:------> Update Single Blog using id
+const updateSingleBlog = async(req, res, next) =>{
     const {title, description, image} = req.body;
     const blogId = req.params.id;
     let blog;
@@ -43,6 +46,25 @@ const updateBlog = async(req, res, next) =>{
     return res.status(200).json({blog})
 }
 
+
+//TODO:------> Delete single Blog using ID
+const deleteSingleBlog = (req, res, next) =>{
+    let id = req.params.id;
+    BlogModel.findByIdAndRemove(id)
+        .then(data =>{
+            res.status(200).json({
+                message: "Blog Deleted!",
+                deleteBlog: data
+            })
+        })
+        .catch(err =>{
+            res.status(500).json({
+                message: "Error Occured!",
+                error: err
+            })
+        })
+}
+
 module.exports = {
-    getAllBlog, addBlog, updateBlog
+    getAllBlog, addBlog, updateSingleBlog, deleteSingleBlog
 }
