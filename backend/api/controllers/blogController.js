@@ -30,20 +30,18 @@ const addBlog = async(req, res, next) =>{
 
 
 //TODO:------> Show a Single Blog Using ID
-const getSingleBlog = (req, res, next) =>{
+const getSingleBlog = async(req, res, next) =>{
     let id = req.params.id;
-    BlogModel.findById(id)
-        .then(data =>{
-            res.status(200).json({
-                singleContact: data
-            })
-        })
-        .catch(err =>{
-            res.status(500).json({
-                message: "Error Occured!",
-                error: err
-            })
-        })
+    let blog;
+    try{
+        blog = await BlogModel.findById(id);
+    }catch(err){
+        return console.log(err);
+    }
+    if(!blog){
+        return res.status(404).json({message: "No Blog Found!"});
+    }
+    return res.status(200).json({blog});
 }
 
 
